@@ -17,7 +17,7 @@ connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173", // Development
-  "https://link-manage.netlify.app", // Production (REMOVE trailing `/`)
+  "https://kitly.netlify.app", // Production (REMOVE trailing `/`)
 ];
 
 app.use(

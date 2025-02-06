@@ -91,7 +91,7 @@ const Navbar = ({ editFormOn, setEditFormOn, response, setResponse, search, setS
             <input
               type="text"
               placeholder="Search by remarks"
-              value={search}
+              value={search !== null ? search : ''}
               onChange={handleSearch}
               className={styles.searchInput}
             />
