@@ -63,7 +63,7 @@ const ActionBar = ({formOn, setFormOn, search, setSearch}) => {
                   <input
                     type="text"
                     placeholder="Search by remarks"
-                    value={search}
+                    value={search !== null ? search : ''}
                     onChange={handleSearch}
                     className={styles.searchInput}
                   />

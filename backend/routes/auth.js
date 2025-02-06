@@ -18,14 +18,12 @@ router.post('/signup', async (req, res) => {
                 message: "All fields are required"
             });
         }
-        console.log('ist')
         if(password !== confirmPassword) {
             return res.status(400).json({
                 success: false,
                 message: "Passwords do not match"
             });
         }
-        console.log('2nd')
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -34,7 +32,6 @@ router.post('/signup', async (req, res) => {
                 message: "User already exists"
             });
         }
-        console.log('3nd')
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -47,7 +44,6 @@ router.post('/signup', async (req, res) => {
             password: hashedPassword,
             userInitials
         });
-        console.log('4th')
 
         const token = jwt.sign(
             { id: user._id },
@@ -57,11 +53,10 @@ router.post('/signup', async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
-        console.log('5th')
 
         return res.status(201).json({
             success: true,
@@ -121,7 +116,7 @@ router.post('/login', async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
