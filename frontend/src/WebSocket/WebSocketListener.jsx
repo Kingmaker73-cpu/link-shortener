@@ -5,7 +5,7 @@ const WebSocketListener = () => {
   const [ws, setWs] = useState(null);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3000'); // Change to wss:// if in production
+    const socket = new WebSocket('wss://link-shortener-eahs.onrender.com'); // Change to wss:// if in production
     setWs(socket);
 
     socket.onopen = () => console.log('✅ Connected to WebSocket');
