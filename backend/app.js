@@ -80,21 +80,20 @@ app.use("/:shortUrl", async (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-// function keepServerAlive() {
-//   if (process.env.RENDER_EXTERNAL_URL) {
-//       setInterval(async () => {
-//           try {
-//               const response = await axios.get(process.env.RENDER_EXTERNAL_URL);
-//               console.log('Server pinged successfully');
-//           } catch (error) {
-//               console.error('Ping failed', error);
-//           }
-//       }, 10 * 60 * 1000); // Ping every 10 minutes
-//   }
-// }
+function keepServerAlive() {
+  if (process.env.RENDER_EXTERNAL_URL) {
+      setInterval(async () => {
+          try {
+              const response = await axios.get(process.env.RENDER_EXTERNAL_URL);
+              console.log('Server pinged successfully');
+          } catch (error) {
+              console.error('Ping failed', error);
+          }
+      }, 10 * 60 * 1000); // Ping every 10 minutes
+  }
+}
 
-// Call the function 
-// keepServerAlive();
+keepServerAlive();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
