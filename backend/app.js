@@ -49,6 +49,9 @@ app.use("/:shortUrl", async (req, res) => {
         message: "Short link not found",
       });
     }
+    if(url.expirationDate < Date.now()) {
+      return res.redirect(`https://kitly.netlify.app/link-expired`)
+    }
     const userAgent = req.headers["user-agent"]; 
     const { device, os } = parseUserAgent(userAgent);
     const clientIP = req.headers["x-forwarded-for"]?.split(',')[0] || 

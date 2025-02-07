@@ -9,6 +9,7 @@ import Layout from './Components/Layout/Layout';
 import Logo from './Components/Logo/Logo';
 import { useMediaQuery } from 'react-responsive';
 import WebSocketListener from './WebSocket/WebSocketListener';
+import LinkExpired from './pages/LinkExpired/LinkExpired';
 
 // Lazy-loaded components
 const SignUp = lazy(() => import('./pages/SignUp/SignUp'));
@@ -56,6 +57,11 @@ const AppRoutes = ({ isOpen, formOn }) => {
       <Route path="/login" element={
         <PublicRoute>
           <LogIn />
+        </PublicRoute>
+      } />
+      <Route path="/link-expired" element={
+        <PublicRoute>
+          <LinkExpired />
         </PublicRoute>
       } />
 

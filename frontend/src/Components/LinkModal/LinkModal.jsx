@@ -18,11 +18,13 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
     const [startDate, setStartDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    // console.log(editFormOn)
-    // console.log('formOn: ', formOn)
+    
     useEffect(() => {
-        if (response && response !== 'undefined' && response.expirationDate === null) {
-            setIsExpirationOn(false);
+        if (response && response !== 'undefined') {
+            setIsExpirationOn(response.expirationDate !== null);
+            if (response.expirationDate) {
+                setStartDate(new Date(response.expirationDate));
+            }
         }
     }, [response]);
 
@@ -31,13 +33,13 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
             return {
                 originalUrl: response.originalUrl || "",
                 remarks: response.remarks || "",
-                expirationDate: response.expirationDate || "",
+                expirationDate: response.expirationDate || null,
             };
         } else {
             return {
                 originalUrl: "",
                 remarks: "",
-                expirationDate: "",
+                expirationDate: isExpirationOn ? new Date().toISOString() : null,
             };
         }
     });
@@ -66,28 +68,32 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
 
         if (Object.keys(newErrors).length === 0) {
             try {
+                const submissionData = {
+                    ...formData,
+                    expirationDate: isExpirationOn ? startDate.toISOString() : null
+                };
+
                 let Response;
                 if (formOn) {
-                    Response = await api.post('/api/urls', formData, { withCredentials: true });
+                    Response = await api.post('/api/urls', submissionData, { withCredentials: true });
                 } else if (editFormOn && response && response !== 'undefined') {
-                    if (!isExpirationOn) {
-                        formData.expirationDate = null;
-                    }
-                    Response = await api.put(`/api/urls/${response._id}`, formData, { withCredentials: true });
+                    Response = await api.put(`/api/urls/${response._id}`, submissionData, { withCredentials: true });
                 }
+                
                 if (typeof setResponse === 'function') {
                     setResponse(Response);
                 }
-                console.log("Form submitted successfully:", formData);
-                if(typeof setFormOn === 'function'){
+
+                if(typeof setFormOn === 'function') {
                     setFormOn(false);
                     toast.success('YAY! Link created successfully', {
                         theme: 'colored',
                         style: { backgroundColor: '#bb6a3b', color: '#fff', fontSize: '16px' } 
                     });
                     navigate(`/${user.id}/links`);
-                    return
+                    return;
                 }
+                
                 if (typeof setEditFormOn === 'function') {
                     setEditFormOn(false);
                     toast.success('YAY! Link edited successfully', {
@@ -109,17 +115,18 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
     };
 
     const handleCreateForm = () => {
-        // console.log(typeof setFormOn)
         if(typeof setFormOn === 'function') 
-        setFormOn(false);
-    // console.log("formOn: ", formOn)
+            setFormOn(false);
         if(typeof setEditFormOn === 'function')
-        setEditFormOn(false);
+            setEditFormOn(false);
     };
 
     const handleDateChange = (date) => {
         setStartDate(date);
-        handleChange({ target: { name: "expirationDate", value: date.toISOString() } });
+        setFormData(prev => ({
+            ...prev,
+            expirationDate: date.toISOString()
+        }));
         setIsOpen(false);
     };
 
@@ -132,7 +139,7 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
         setFormData({
             originalUrl: "",
             remarks: "",
-            expirationDate: "",
+            expirationDate: isExpirationOn ? new Date().toISOString() : null,
         });
         setStartDate(new Date());
         setErrors({});
@@ -140,6 +147,10 @@ const LinkModal = ({ formOn, setFormOn, editFormOn, setEditFormOn, response, set
 
     const handleExpirationToggle = () => {
         setIsExpirationOn(!isExpirationOn);
+        setFormData(prev => ({
+            ...prev,
+            expirationDate: !isExpirationOn ? startDate.toISOString() : null
+        }));
     };
 
     return (

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Links.module.css'
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import Navbar from '../../Components/Navbar/Navbar'
 import api from '../../../api';
 import { linkCreationDate } from '../../utils/formatDateAndTime';
 import { MdModeEdit } from "react-icons/md";
@@ -143,7 +141,7 @@ const Links = () => {
             setIsSearching(true)
             params.search = search;
             response = await api.get('/api/urls/search', { params, withCredentials: true });
-            
+
             setLinks(response.data.paginatedSearch);
             setIsSearching(false)
           } else {
@@ -225,8 +223,16 @@ const Links = () => {
 
  
   const checkStatus = (d) => {     
-    let currentDate = new Date()  
-    let expiryDate = new Date(d)   
+    console.log(d)
+    let currentDate = new Date()
+    let expiryDate
+    if(d === null) {
+      expiryDate = new Date(currentDate)
+      expiryDate.setDate(currentDate.getDate() + 1)
+    }
+    else {
+      expiryDate = new Date(d)
+    }
     return expiryDate > currentDate ? "Active" : "Inactive"   
 } 
 {/* <Navbar 
