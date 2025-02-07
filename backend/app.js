@@ -55,7 +55,14 @@ app.use("/:shortUrl", async (req, res) => {
       return res.redirect(`https://kitly.netlify.app/link-expired`)
     }
     const userAgent = req.headers["user-agent"]; 
-    const { device, os } = parseUserAgent(userAgent);
+    const { device, os, isBot } = parseUserAgent(userAgent);
+    if(isBot) {
+      console.log('Bot detected')
+      return res.status(403).json({
+        success: false,
+        message: "Bot detected",
+      });
+    }
     const clientIP = req.headers["x-forwarded-for"]?.split(',')[0] || 
                  req.socket?.remoteAddress || 
                  req.ip || 
