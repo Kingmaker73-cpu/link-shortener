@@ -3,6 +3,11 @@ import { toast } from 'sonner';
 
 const WebSocketListener = () => {
   const [ws, setWs] = useState(null);
+  const playSound = () => {
+    console.log('🔊 Playing sound...');
+    const audio = new Audio('/sound/linkclicked.mp3')
+    audio.play()
+  };
 
   useEffect(() => {
     const socket = new WebSocket('wss://kitly.onrender.com'); // Change to wss:// if in production
@@ -36,10 +41,6 @@ const WebSocketListener = () => {
   return null;
 };
 
-const playSound = () => {
-  console.log('🔊 Playing sound...');
-  const audio = new Audio('/sound/linkclicked.mp3')
-  audio.play()
-};
+
 
 export default WebSocketListener;
