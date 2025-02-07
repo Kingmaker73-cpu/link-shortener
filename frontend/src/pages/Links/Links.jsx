@@ -141,7 +141,6 @@ const Links = () => {
             setIsSearching(true)
             params.search = search;
             response = await api.get('/api/urls/search', { params, withCredentials: true });
-
             setLinks(response.data.paginatedSearch);
             setIsSearching(false)
           } else {

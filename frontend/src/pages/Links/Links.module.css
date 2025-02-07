@@ -204,12 +204,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     font-size: 24px; /* Increase font size */
     font-weight: bold; /* Make the text bold */
     color: #333; /* Optional: Set the text color */
     text-align: center;
-    padding: 20px;
+    left: 17vw;
+    position: absolute;
+    width: 83vw;
+    top: 12vh;
+    /* background-color: aqua; */
+    height: 88vh;
   }
   
   @media (max-width: 768px) {
