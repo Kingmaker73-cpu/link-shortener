@@ -223,7 +223,6 @@ const Links = () => {
 
  
   const checkStatus = (d) => {     
-    console.log(d)
     let currentDate = new Date()
     let expiryDate
     if(d === null) {

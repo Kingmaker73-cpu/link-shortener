@@ -142,7 +142,7 @@ const Analytics = () => {
                   </div>
                 </td>
                 <td>{link.ipAddress}</td>
-                <td>{link.device}</td>
+                <td>{link.device.charAt(0).toUpperCase() + link.device.slice(1)}</td>
               </tr>
             ))}
           </tbody>

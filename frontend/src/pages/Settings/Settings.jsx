@@ -85,14 +85,14 @@ const Settings = () => {
                 }));
                 toast.success('Profile updated successfully', {
                                         theme: 'colored',
-                                        style: { backgroundColor: '#fff', color: '#0073e6' } // Custom blue color
+                                        style: { backgroundColor: '#bb6a3b', color: '#fff', fontSize: '16px' } 
                                     });
                 console.log("Form submitted successfully:", formData);
                 
             } catch (error) {
                 toast.success('Profile updated failed', {
                     theme: 'colored',
-                    style: { backgroundColor: '#fff', color: '#0073e6' } // Custom blue color
+                    style: { backgroundColor: '#ed4337', color: '#fff', fontSize: '16px' }
                 });
                 console.error(error);
             }
